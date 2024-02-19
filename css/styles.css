@@ -6,11 +6,17 @@ body {
   background-color: rgb(238 238 238);
 }
 
+.form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .submit {
   background-color: rgb(76 38 118);
   color: white;
   border-radius: 6px;
   padding: 8px;
+  margin-bottom: 30px;
 }
 
 .parent-column-aligns-submit {

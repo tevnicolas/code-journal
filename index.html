@@ -33,30 +33,41 @@
           </div>
         </div>
         <div class="row">
-          <div class="column-half">
-            <img class="img" src="images/placeholder-image-square.jpg" />
-          </div>
-          <div class="column-half">
-            <label class="inputs" for="title">Title</label>
-            <input class="inputs input" type="text" id="title" name="title" />
-            <label class="inputs" for="url">Photo URL</label>
-            <input class="inputs input" type="text" id="url" name="url" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="column-full">
-            <label class="inputs notes-label" for="notes">Notes</label>
-            <textarea class="inputs input" id="notes" name="notes" rows="10">
-            </textarea>
-          </div>
-          <div class="column-full parent-column-aligns-submit">
-            <input
-              class="submit"
-              type="submit"
-              id="submit"
-              value="SAVE"
-              name="submit" />
-          </div>
+          <form class="form" name="main-form">
+            <div class="column-half">
+              <img class="img" src="images/placeholder-image-square.jpg" />
+            </div>
+
+            <div class="column-half">
+              <label class="inputs" for="title">Title</label>
+              <input
+                required="true"
+                class="inputs input"
+                type="text"
+                id="title"
+                name="title" />
+              <label class="inputs" for="url">Photo URL</label>
+              <input
+                required="true"
+                class="inputs input"
+                type="text"
+                id="url"
+                name="url" />
+            </div>
+            <div class="column-full">
+              <label class="inputs notes-label" for="notes">Notes</label>
+              <textarea class="inputs input" id="notes" name="notes" rows="10">
+              </textarea>
+            </div>
+            <div class="column-full parent-column-aligns-submit">
+              <input
+                class="submit"
+                type="submit"
+                id="submit"
+                value="SAVE"
+                name="submit" />
+            </div>
+          </form>
         </div>
       </div>
       <div data-view="entries" class="hidden"></div>

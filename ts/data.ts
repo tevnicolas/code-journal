@@ -30,5 +30,3 @@ const previousDataJSON = localStorage.getItem('javascript-local-storage');
 if (previousDataJSON !== null) {
   data = JSON.parse(previousDataJSON);
 }
-
-console.log(data);

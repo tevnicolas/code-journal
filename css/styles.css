@@ -28,6 +28,11 @@ body {
   color: white;
 }
 
+.img-container {
+  min-width: 330px;
+  min-height: 330px;
+}
+
 .img {
   width: 100%;
 }

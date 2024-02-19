@@ -7,7 +7,7 @@ interface FormElements extends HTMLFormControlsCollection {
 
 const $photoURLInput = document.querySelector('#url');
 const $img = document.querySelector('.img');
-const $form = document.querySelector('.main-form') as HTMLFormElement;
+const $form = document.querySelector('.form') as HTMLFormElement;
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
@@ -27,10 +27,8 @@ $form.addEventListener('submit', (event) => {
     notes: $formElements.notes.value,
     entryId: data.nextEntryId,
   };
-  entriesObject.entryId++;
+  data.nextEntryId++;
   data.entries.push(entriesObject);
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
 });
-
-console.log(data);

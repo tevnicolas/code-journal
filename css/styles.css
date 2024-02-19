@@ -1,0 +1,44 @@
+header {
+  background-color: rgb(76 38 118);
+}
+
+body {
+  background-color: rgb(238 238 238);
+}
+
+.submit {
+  background-color: rgb(76 38 118);
+  color: white;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.parent-column-aligns-submit {
+  display: flex;
+  justify-content: end;
+}
+
+.header-text {
+  color: white;
+}
+
+.img {
+  width: 100%;
+}
+
+.inputs {
+  border-radius: 4px;
+  margin-right: 10px;
+  padding-bottom: 20px;
+  display: block;
+  width: 100%;
+}
+
+.input {
+  margin-bottom: 20px;
+  border: 1px solid;
+}
+
+.notes-label {
+  margin-top: 20px;
+}

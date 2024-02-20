@@ -1,26 +1,17 @@
-/* global data */
-interface FormElements extends HTMLFormControlsCollection {
-  title: HTMLInputElement;
-  url: HTMLInputElement;
-  notes: HTMLTextAreaElement;
-}
-
+'use strict';
 const $photoURLInput = document.querySelector('#url');
 const $img = document.querySelector('.img');
-const $form = document.querySelector('.form') as HTMLFormElement;
-
+const $form = document.querySelector('.form');
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
 if (!$form) throw new Error("There's no form element");
-
-$photoURLInput.addEventListener('input', (event: Event): void => {
-  const eventTarget = event.target as HTMLInputElement;
+$photoURLInput.addEventListener('input', (event) => {
+  const eventTarget = event.target;
   $img.setAttribute('src', eventTarget.value);
 });
-
 $form.addEventListener('submit', (event) => {
   event.preventDefault();
-  const $formElements = $form.elements as FormElements;
+  const $formElements = $form.elements;
   const entriesObject = {
     title: $formElements.title.value,
     url: $formElements.url.value,
@@ -28,7 +19,7 @@ $form.addEventListener('submit', (event) => {
     entryId: data.nextEntryId,
   };
   data.nextEntryId++;
-  data.entries.unshift(entriesObject);
+  data.entries.push(entriesObject);
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
 });

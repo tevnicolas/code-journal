@@ -1,0 +1,55 @@
+header {
+  background-color: rgb(76 38 118);
+}
+
+body {
+  background-color: rgb(238 238 238);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.submit {
+  background-color: rgb(76 38 118);
+  color: white;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 30px;
+}
+
+.parent-column-aligns-submit {
+  display: flex;
+  justify-content: end;
+}
+
+.header-text {
+  color: white;
+}
+
+.img-container {
+  min-width: 320px;
+  min-height: 320px;
+}
+
+.img {
+  width: 100%;
+}
+
+.inputs {
+  border-radius: 4px;
+  margin-right: 10px;
+  padding-bottom: 20px;
+  display: block;
+  width: 100%;
+}
+
+.input {
+  margin-bottom: 20px;
+  border: 1px solid;
+}
+
+.notes-label {
+  margin-top: 20px;
+}

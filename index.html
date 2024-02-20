@@ -17,10 +17,64 @@
   </head>
   <body>
     <header>
-      <div class="container"></div>
+      <div class="container">
+        <div class="row">
+          <div class="column-full">
+            <h1 class="header-text">Code Journal</h1>
+          </div>
+        </div>
+      </div>
     </header>
     <main class="container">
-      <div data-view="entry-form"></div>
+      <div data-view="entry-form">
+        <div class="row">
+          <div class="column-full">
+            <h1>New Entry</h1>
+          </div>
+        </div>
+        <div class="row">
+          <form class="form" name="main-form">
+            <div class="column-half img-container">
+              <img
+                class="img"
+                src="images/placeholder-image-square.jpg"
+                alt="image post" />
+            </div>
+            <div class="column-half">
+              <label class="inputs" for="title">Title</label>
+              <input
+                required="true"
+                class="inputs input"
+                type="text"
+                id="title"
+                name="title" />
+              <label class="inputs" for="url">Photo URL</label>
+              <input
+                required="true"
+                class="inputs input"
+                type="text"
+                id="url"
+                name="url" />
+            </div>
+            <div class="column-full">
+              <label class="inputs notes-label" for="notes">Notes</label>
+              <textarea
+                class="inputs input"
+                id="notes"
+                name="notes"
+                rows="10"></textarea>
+            </div>
+            <div class="column-full parent-column-aligns-submit">
+              <input
+                class="submit"
+                type="submit"
+                id="submit"
+                value="SAVE"
+                name="submit" />
+            </div>
+          </form>
+        </div>
+      </div>
       <div data-view="entries" class="hidden"></div>
     </main>
     <script src="js/data.js"></script>

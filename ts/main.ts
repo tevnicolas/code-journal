@@ -9,11 +9,14 @@ const $photoURLInput = document.querySelector('#url');
 const $img = document.querySelector('.img');
 const $form = document.querySelector('.form') as HTMLFormElement;
 const $ul = document.querySelector('.list') as HTMLUListElement;
+const $noEntries = document.querySelector('.no-entries') as HTMLDivElement;
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
 if (!$form) throw new Error("There's no form element");
-if (!$ul) throw new Error("There's no form element");
+if (!$ul) throw new Error("There's no ul element");
+if (!$noEntries)
+  throw new Error("There's no div element with class .no-entries");
 
 $photoURLInput.addEventListener('input', (event: Event): void => {
   const eventTarget = event.target as HTMLInputElement;
@@ -67,4 +70,12 @@ document.addEventListener('DOMContentLoaded', (): void => {
   }
 });
 
-// console.log(render);
+function toggleNoEntries(): void {
+  if ($noEntries.className === 'column-full no-entries') {
+    $noEntries.setAttribute('class', 'column-full no-entries hidden');
+  } else {
+    $noEntries.setAttribute('class', 'column-full no-entries');
+  }
+}
+
+console.log(toggleNoEntries);

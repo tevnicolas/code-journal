@@ -8,17 +8,19 @@ interface FormElements extends HTMLFormControlsCollection {
 const $photoURLInput = document.querySelector('#url');
 const $img = document.querySelector('.img');
 const $form = document.querySelector('.form') as HTMLFormElement;
+const $ul = document.querySelector('.list') as HTMLUListElement;
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
 if (!$form) throw new Error("There's no form element");
+if (!$ul) throw new Error("There's no form element");
 
 $photoURLInput.addEventListener('input', (event: Event): void => {
   const eventTarget = event.target as HTMLInputElement;
   $img.setAttribute('src', eventTarget.value);
 });
 
-$form.addEventListener('submit', (event) => {
+$form.addEventListener('submit', (event: Event): void => {
   event.preventDefault();
   const $formElements = $form.elements as FormElements;
   const entriesObject = {
@@ -58,4 +60,11 @@ function render(entry: EntriesObject): HTMLLIElement {
   return $liRow;
 }
 
-console.log(render);
+document.addEventListener('DOMContentLoaded', (): void => {
+  for (const entry of data.entries) {
+    const $newLiRowTree = render(entry);
+    $ul.appendChild($newLiRowTree);
+  }
+});
+
+// console.log(render);

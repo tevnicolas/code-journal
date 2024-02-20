@@ -30,3 +30,10 @@ const previousDataJSON = localStorage.getItem('javascript-local-storage');
 if (previousDataJSON !== null) {
   data = JSON.parse(previousDataJSON);
 }
+
+// document.addEventListener('DOMContentLoaded', (): void => {
+//   for (let entry of data.entries) {
+//     const $newLiRowTree = render(entry);
+//     $ul.appendChild($newLiRowTree);
+//   }
+// });

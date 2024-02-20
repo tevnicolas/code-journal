@@ -53,3 +53,9 @@ body {
 .notes-label {
   margin-top: 20px;
 }
+
+.list {
+  list-style: none;
+  margin: inherit;
+  padding: inherit;
+}

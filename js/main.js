@@ -35,6 +35,10 @@ $form.addEventListener('submit', (event) => {
   data.entries.unshift(entriesObject);
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
+  const $newLiTree = render(entriesObject);
+  $ul.appendChild($newLiTree);
+  viewSwap('entries');
+  toggleNoEntries();
 });
 function render(entry) {
   const $liRow = document.createElement('li');
@@ -62,10 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
   for (const entry of data.entries) {
     const $newLiRowTree = render(entry);
     $ul.appendChild($newLiRowTree);
+    toggleNoEntries();
   }
 });
 function toggleNoEntries() {
-  if ($noEntries.className === 'column-full no-entries') {
+  if (data.entries.length > 0) {
     $noEntries.setAttribute('class', 'column-full no-entries hidden');
   } else {
     $noEntries.setAttribute('class', 'column-full no-entries');
@@ -84,6 +89,7 @@ function viewSwap(viewName) {
 $entriesHeaderAnchor.addEventListener('click', (event) => {
   event.preventDefault();
   viewSwap('entries');
+  toggleNoEntries();
 });
 $newAnchor.addEventListener('click', (event) => {
   event.preventDefault();

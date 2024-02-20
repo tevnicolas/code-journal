@@ -52,6 +52,11 @@ $form.addEventListener('submit', (event: Event): void => {
   data.entries.unshift(entriesObject);
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
+
+  const $newLiTree = render(entriesObject);
+  $ul.appendChild($newLiTree);
+  viewSwap('entries');
+  toggleNoEntries();
 });
 
 function render(entry: EntriesObject): HTMLLIElement {
@@ -83,11 +88,12 @@ document.addEventListener('DOMContentLoaded', (): void => {
   for (const entry of data.entries) {
     const $newLiRowTree = render(entry);
     $ul.appendChild($newLiRowTree);
+    toggleNoEntries();
   }
 });
 
 function toggleNoEntries(): void {
-  if ($noEntries.className === 'column-full no-entries') {
+  if (data.entries.length > 0) {
     $noEntries.setAttribute('class', 'column-full no-entries hidden');
   } else {
     $noEntries.setAttribute('class', 'column-full no-entries');
@@ -108,12 +114,10 @@ function viewSwap(viewName: string): void {
 $entriesHeaderAnchor.addEventListener('click', (event: Event): void => {
   event.preventDefault();
   viewSwap('entries');
+  toggleNoEntries();
 });
 
 $newAnchor.addEventListener('click', (event: Event): void => {
   event.preventDefault();
   viewSwap('entry-form');
 });
-
-console.log(toggleNoEntries);
-// console.log(viewSwap);

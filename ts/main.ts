@@ -32,3 +32,30 @@ $form.addEventListener('submit', (event) => {
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
 });
+
+function render(entry: EntriesObject): HTMLLIElement {
+  const $liRow = document.createElement('li');
+  $liRow.className = 'row';
+  const $divColumnHalf1 = document.createElement('div');
+  $divColumnHalf1.className = 'column-half img-container';
+  const $img = document.createElement('img');
+  $img.className = 'img';
+  $img.setAttribute('src', entry.url);
+  $img.setAttribute('alt', 'image post');
+  const $divColumnHalf2 = document.createElement('div');
+  $divColumnHalf2.className = 'column-half';
+  const $title = document.createElement('h3');
+  $title.textContent = entry.title;
+  const $notes = document.createElement('p');
+  $notes.textContent = entry.notes;
+
+  $divColumnHalf2.appendChild($title);
+  $divColumnHalf2.appendChild($notes);
+  $divColumnHalf1.appendChild($img);
+  $liRow.appendChild($divColumnHalf1);
+  $liRow.appendChild($divColumnHalf2);
+
+  return $liRow;
+}
+
+console.log(render);

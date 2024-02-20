@@ -16,6 +16,9 @@ const $entryForm = document.querySelector(
 const $entries = document.querySelector(
   'div[data-view="entries"]'
 ) as HTMLDivElement;
+const $entriesHeaderAnchor = document.querySelector(
+  '.anchor'
+) as HTMLAnchorElement;
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
@@ -25,6 +28,7 @@ if (!$noEntries)
   throw new Error("There's no div element with class .no-entries");
 if (!$entryForm) throw new Error('No entry-form div element');
 if (!$entries) throw new Error('No entries div element');
+if (!$entriesHeaderAnchor) throw new Error('No entries header anchor element');
 
 $photoURLInput.addEventListener('input', (event: Event): void => {
   const eventTarget = event.target as HTMLInputElement;
@@ -96,6 +100,10 @@ function viewSwap(viewName: string): void {
   }
   data.view = viewName;
 }
+
+// $entriesHeaderAnchor.addEventListener('click', (event: Event) => {
+//   const $eventTarget = event.target;
+// })
 
 console.log(toggleNoEntries);
 console.log(viewSwap);

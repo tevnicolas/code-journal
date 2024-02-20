@@ -24,8 +24,25 @@ body {
   justify-content: end;
 }
 
-.header-text {
+.header-row {
+  flex-wrap: nowrap;
   color: white;
+}
+
+.header-text {
+  min-width: 211px;
+  width: 25%;
+}
+
+.header-entries-button {
+  display: flex;
+  align-items: center;
+}
+
+.anchor {
+  color: white;
+  font-size: 15px;
+  text-decoration-line: none;
 }
 
 .img-container {

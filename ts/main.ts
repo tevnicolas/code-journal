@@ -101,9 +101,10 @@ function viewSwap(viewName: string): void {
   data.view = viewName;
 }
 
-// $entriesHeaderAnchor.addEventListener('click', (event: Event) => {
-//   const $eventTarget = event.target;
-// })
+$entriesHeaderAnchor.addEventListener('click', (event) => {
+  event.preventDefault();
+  viewSwap('entries');
+});
 
 console.log(toggleNoEntries);
-console.log(viewSwap);
+// console.log(viewSwap);

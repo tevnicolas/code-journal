@@ -1,5 +1,5 @@
 header {
-  background-color: rgb(76 38 118);
+  background-color: rgb(86 43 129);
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 }
 
 .submit {
-  background-color: rgb(76 38 118);
+  background-color: rgb(86 43 129);
   color: white;
   border-radius: 6px;
   padding: 8px;
@@ -82,4 +82,27 @@ body {
   justify-content: center;
   margin: 10px;
   padding: 10px;
+}
+
+.entries-new-post-header {
+  width: 25%;
+}
+
+.new-button {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 75%;
+}
+
+.new-button-styling {
+  background-color: rgb(86 43 129);
+  font-size: 17px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  text-decoration-line: none;
 }

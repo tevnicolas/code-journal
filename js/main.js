@@ -7,6 +7,7 @@ const $noEntries = document.querySelector('.no-entries');
 const $entryForm = document.querySelector('div[data-view="entry-form"]');
 const $entries = document.querySelector('div[data-view="entries"]');
 const $entriesHeaderAnchor = document.querySelector('.anchor');
+const $newAnchor = document.querySelector('.new-button-styling');
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
 if (!$form) throw new Error("There's no form element");
@@ -16,6 +17,7 @@ if (!$noEntries)
 if (!$entryForm) throw new Error('No entry-form div element');
 if (!$entries) throw new Error('No entries div element');
 if (!$entriesHeaderAnchor) throw new Error('No entries header anchor element');
+if (!$newAnchor) throw new Error('No "new" anchor button element');
 $photoURLInput.addEventListener('input', (event) => {
   const eventTarget = event.target;
   $img.setAttribute('src', eventTarget.value);
@@ -83,5 +85,9 @@ $entriesHeaderAnchor.addEventListener('click', (event) => {
   event.preventDefault();
   viewSwap('entries');
 });
-// console.log(toggleNoEntries);
+$newAnchor.addEventListener('click', (event) => {
+  event.preventDefault();
+  viewSwap('entry-form');
+});
+console.log(toggleNoEntries);
 // console.log(viewSwap);

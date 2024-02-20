@@ -4,12 +4,16 @@ const $img = document.querySelector('.img');
 const $form = document.querySelector('.form');
 const $ul = document.querySelector('.list');
 const $noEntries = document.querySelector('.no-entries');
+const $entryForm = document.querySelector('div[data-view="entry-form"]');
+const $entries = document.querySelector('div[data-view="entries"]');
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
 if (!$form) throw new Error("There's no form element");
 if (!$ul) throw new Error("There's no ul element");
 if (!$noEntries)
   throw new Error("There's no div element with class .no-entries");
+if (!$entryForm) throw new Error('No entry-form div element');
+if (!$entries) throw new Error('No entries div element');
 $photoURLInput.addEventListener('input', (event) => {
   const eventTarget = event.target;
   $img.setAttribute('src', eventTarget.value);
@@ -63,3 +67,14 @@ function toggleNoEntries() {
     $noEntries.setAttribute('class', 'column-full no-entries');
   }
 }
+function viewSwap(viewName) {
+  if (viewName === 'entry-form') {
+    $entryForm.setAttribute('class', '');
+    $entries.setAttribute('class', 'hidden');
+  } else if (viewName === 'entries') {
+    $entries.setAttribute('class', '');
+    $entryForm.setAttribute('class', 'hidden');
+  }
+  data.view = viewName;
+}
+// console.log(toggleNoEntries);

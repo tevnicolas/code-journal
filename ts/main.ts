@@ -88,13 +88,9 @@ document.addEventListener('DOMContentLoaded', (): void => {
   for (const entry of data.entries) {
     const $newLiRowTree = render(entry);
     $ul.appendChild($newLiRowTree);
-    if (data.view === 'entry-form') {
-      viewSwap('entry-form');
-    } else {
-      viewSwap('entries');
-    }
-    toggleNoEntries();
   }
+  viewSwap(data.view);
+  toggleNoEntries();
 });
 
 function toggleNoEntries(): void {

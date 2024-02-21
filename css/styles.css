@@ -1,5 +1,5 @@
 header {
-  background-color: rgb(76 38 118);
+  background-color: rgb(86 43 129);
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 }
 
 .submit {
-  background-color: rgb(76 38 118);
+  background-color: rgb(86 43 129);
   color: white;
   border-radius: 6px;
   padding: 8px;
@@ -24,17 +24,38 @@ body {
   justify-content: end;
 }
 
-.header-text {
+.header-row {
+  flex-wrap: nowrap;
   color: white;
 }
 
+.header-text {
+  min-width: 211px;
+  width: 25%;
+}
+
+.header-entries-button {
+  display: flex;
+  align-items: center;
+}
+
+.anchor {
+  color: white;
+  font-size: 15px;
+  text-decoration-line: none;
+}
+
 .img-container {
-  min-width: 320px;
-  min-height: 320px;
+  min-width: 50%;
+  min-height: 50%;
+  height: auto;
+  overflow: hidden;
 }
 
 .img {
   width: 100%;
+  height: auto;
+  display: block;
 }
 
 .inputs {
@@ -52,4 +73,40 @@ body {
 
 .notes-label {
   margin-top: 20px;
+}
+
+.list {
+  list-style: none;
+  margin: inherit;
+  padding: inherit;
+}
+
+.no-entries {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+.entries-new-post-header {
+  width: 25%;
+}
+
+.new-button {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 75%;
+}
+
+.new-button-styling {
+  background-color: rgb(86 43 129);
+  font-size: 17px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  text-decoration-line: none;
 }

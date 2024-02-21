@@ -23,6 +23,7 @@ const $entriesHeaderAnchor = document.querySelector(
 const $newAnchor = document.querySelector(
   '.new-button-styling'
 ) as HTMLAnchorElement;
+const $titleEntryForm = document.querySelector('#title-entry-form');
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
@@ -34,6 +35,7 @@ if (!$entryForm) throw new Error('No entry-form div element');
 if (!$entries) throw new Error('No entries div element');
 if (!$entriesHeaderAnchor) throw new Error('No entries header anchor element');
 if (!$newAnchor) throw new Error('No "new" anchor button element');
+if (!$titleEntryForm) throw new Error('No title!');
 
 $photoURLInput.addEventListener('input', (event: Event): void => {
   const eventTarget = event.target as HTMLInputElement;
@@ -56,10 +58,23 @@ $form.addEventListener('submit', (event: Event): void => {
     data.nextEntryId++;
     data.entries.unshift(entriesObject);
     const $newLiTree = render(entriesObject);
-    $ul.appendChild($newLiTree);
+    $ul.insertBefore($newLiTree, $ul.firstChild);
   } else {
     entriesObject.entryId = data.editing.entryId;
     data.editing = entriesObject;
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === data.editing.entryId) {
+        data.entries[i] = data.editing;
+      }
+    }
+    const $newLiTree = render(entriesObject);
+    const $oldLiTree = document.querySelector(
+      'li[data-entry-id="' + String(data.editing.entryId) + '"]'
+    );
+    if (!$oldLiTree) throw new Error('No li element found to replace.');
+    $oldLiTree.replaceWith($newLiTree);
+    $titleEntryForm.textContent = 'New Entry';
+    data.editing = null;
   }
 
   $form.reset();
@@ -82,7 +97,6 @@ function render(entry: EntriesObject): HTMLLIElement {
   const $miniRow = document.createElement('div');
   $miniRow.className = 'entries-title-icon-split';
   const $title = document.createElement('h3');
-  $title.className = 'entries-title';
   $title.textContent = entry.title;
   const $pencil = document.createElement('i');
   $pencil.setAttribute('class', 'fa-solid fa-pencil');
@@ -132,15 +146,16 @@ $entriesHeaderAnchor.addEventListener('click', (event: Event): void => {
   event.preventDefault();
   viewSwap('entries');
   toggleNoEntries();
+  clearForm();
 });
 
 $newAnchor.addEventListener('click', (event: Event): void => {
   event.preventDefault();
   viewSwap('entry-form');
+  clearForm();
 });
 
 $ul.addEventListener('click', (event) => {
-  // const $pencilIcon = document.querySelector('.fa-pencil');
   const $eventTarget = event.target as HTMLElement;
   if ($eventTarget.tagName === 'I') {
     viewSwap('entry-form');
@@ -155,8 +170,15 @@ $ul.addEventListener('click', (event) => {
     $formElements.notes.value = data.editing?.notes as string;
     $img.setAttribute('src', $formElements.url.value);
 
-    const $titleEntryForm = document.querySelector('#title-entry-form');
-    if (!$titleEntryForm) throw new Error('No title!');
     $titleEntryForm.textContent = 'Edit Entry';
   }
 });
+
+function clearForm(): void {
+  $formElements.title.value = '';
+  $formElements.url.value = '';
+  $formElements.notes.value = '';
+  $img?.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $titleEntryForm!.textContent = 'New Entry';
+  data.editing = null;
+}

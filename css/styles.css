@@ -111,10 +111,6 @@ body {
   text-decoration-line: none;
 }
 
-.entries-title {
-  display: inline-block;
-}
-
 .entries-title-icon-split {
   display: flex;
   align-items: center;

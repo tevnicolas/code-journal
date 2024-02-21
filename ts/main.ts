@@ -8,6 +8,7 @@ interface FormElements extends HTMLFormControlsCollection {
 const $photoURLInput = document.querySelector('#url');
 const $img = document.querySelector('.img');
 const $form = document.querySelector('.form') as HTMLFormElement;
+const $formElements = $form.elements as FormElements;
 const $ul = document.querySelector('.list') as HTMLUListElement;
 const $noEntries = document.querySelector('.no-entries') as HTMLDivElement;
 const $entryForm = document.querySelector(
@@ -22,6 +23,7 @@ const $entriesHeaderAnchor = document.querySelector(
 const $newAnchor = document.querySelector(
   '.new-button-styling'
 ) as HTMLAnchorElement;
+const $titleEntryForm = document.querySelector('#title-entry-form');
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
@@ -33,6 +35,7 @@ if (!$entryForm) throw new Error('No entry-form div element');
 if (!$entries) throw new Error('No entries div element');
 if (!$entriesHeaderAnchor) throw new Error('No entries header anchor element');
 if (!$newAnchor) throw new Error('No "new" anchor button element');
+if (!$titleEntryForm) throw new Error('No title!');
 
 $photoURLInput.addEventListener('input', (event: Event): void => {
   const eventTarget = event.target as HTMLInputElement;
@@ -41,20 +44,40 @@ $photoURLInput.addEventListener('input', (event: Event): void => {
 
 $form.addEventListener('submit', (event: Event): void => {
   event.preventDefault();
-  const $formElements = $form.elements as FormElements;
+
   const entriesObject = {
     title: $formElements.title.value,
     url: $formElements.url.value,
     notes: $formElements.notes.value,
     entryId: data.nextEntryId,
   };
-  data.nextEntryId++;
-  data.entries.unshift(entriesObject);
-  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
-  $form.reset();
 
-  const $newLiTree = render(entriesObject);
-  $ul.appendChild($newLiTree);
+  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+
+  if (data.editing === null) {
+    data.nextEntryId++;
+    data.entries.unshift(entriesObject);
+    const $newLiTree = render(entriesObject);
+    $ul.prepend($newLiTree);
+  } else {
+    entriesObject.entryId = data.editing.entryId;
+    data.editing = entriesObject;
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === data.editing.entryId) {
+        data.entries[i] = data.editing;
+      }
+    }
+    const $newLiTree = render(entriesObject);
+    const $oldLiTree = document.querySelector(
+      'li[data-entry-id="' + String(data.editing.entryId) + '"]'
+    );
+    if (!$oldLiTree) throw new Error('No li element found to replace.');
+    $oldLiTree.replaceWith($newLiTree);
+    $titleEntryForm.textContent = 'New Entry';
+    data.editing = null;
+  }
+
+  $form.reset();
   viewSwap('entries');
   toggleNoEntries();
 });
@@ -62,22 +85,29 @@ $form.addEventListener('submit', (event: Event): void => {
 function render(entry: EntriesObject): HTMLLIElement {
   const $liRow = document.createElement('li');
   $liRow.className = 'row';
+  $liRow.setAttribute('data-entry-id', String(entry.entryId));
   const $divColumnHalf1 = document.createElement('div');
   $divColumnHalf1.className = 'column-half img-container';
-  const $img = document.createElement('img');
-  $img.className = 'img';
-  $img.setAttribute('src', entry.url);
-  $img.setAttribute('alt', 'image post');
+  const $postedImg = document.createElement('img');
+  $postedImg.className = 'img';
+  $postedImg.setAttribute('src', entry.url);
+  $postedImg.setAttribute('alt', 'image post');
   const $divColumnHalf2 = document.createElement('div');
   $divColumnHalf2.className = 'column-half';
+  const $miniRow = document.createElement('div');
+  $miniRow.className = 'entries-title-icon-split';
   const $title = document.createElement('h3');
   $title.textContent = entry.title;
+  const $pencil = document.createElement('i');
+  $pencil.setAttribute('class', 'fa-solid fa-pencil');
   const $notes = document.createElement('p');
   $notes.textContent = entry.notes;
 
-  $divColumnHalf2.appendChild($title);
+  $miniRow.appendChild($title);
+  $miniRow.appendChild($pencil);
+  $divColumnHalf2.appendChild($miniRow);
   $divColumnHalf2.appendChild($notes);
-  $divColumnHalf1.appendChild($img);
+  $divColumnHalf1.appendChild($postedImg);
   $liRow.appendChild($divColumnHalf1);
   $liRow.appendChild($divColumnHalf2);
 
@@ -116,9 +146,39 @@ $entriesHeaderAnchor.addEventListener('click', (event: Event): void => {
   event.preventDefault();
   viewSwap('entries');
   toggleNoEntries();
+  clearForm();
 });
 
 $newAnchor.addEventListener('click', (event: Event): void => {
   event.preventDefault();
   viewSwap('entry-form');
+  clearForm();
 });
+
+$ul.addEventListener('click', (event) => {
+  const $eventTarget = event.target as HTMLElement;
+  if ($eventTarget.tagName === 'I') {
+    viewSwap('entry-form');
+    const $liAncestor = $eventTarget.closest('li');
+    for (const entry of data.entries) {
+      if ($liAncestor?.dataset.entryId === String(entry.entryId)) {
+        data.editing = entry;
+      }
+    }
+    $formElements.title.value = data.editing?.title as string;
+    $formElements.url.value = data.editing?.url as string;
+    $formElements.notes.value = data.editing?.notes as string;
+    $img.setAttribute('src', $formElements.url.value);
+
+    $titleEntryForm.textContent = 'Edit Entry';
+  }
+});
+
+function clearForm(): void {
+  $formElements.title.value = '';
+  $formElements.url.value = '';
+  $formElements.notes.value = '';
+  $img?.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $titleEntryForm!.textContent = 'New Entry';
+  data.editing = null;
+}

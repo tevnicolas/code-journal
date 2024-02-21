@@ -58,7 +58,7 @@ $form.addEventListener('submit', (event: Event): void => {
     data.nextEntryId++;
     data.entries.unshift(entriesObject);
     const $newLiTree = render(entriesObject);
-    $ul.insertBefore($newLiTree, $ul.firstChild);
+    $ul.prepend($newLiTree);
   } else {
     entriesObject.entryId = data.editing.entryId;
     data.editing = entriesObject;

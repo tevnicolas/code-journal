@@ -110,3 +110,13 @@ body {
   border: none;
   text-decoration-line: none;
 }
+
+.entries-title {
+  display: inline-block;
+}
+
+.entries-title-icon-split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

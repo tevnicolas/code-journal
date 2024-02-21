@@ -2,6 +2,7 @@
 const $photoURLInput = document.querySelector('#url');
 const $img = document.querySelector('.img');
 const $form = document.querySelector('.form');
+const $formElements = $form.elements;
 const $ul = document.querySelector('.list');
 const $noEntries = document.querySelector('.no-entries');
 const $entryForm = document.querySelector('div[data-view="entry-form"]');
@@ -24,7 +25,6 @@ $photoURLInput.addEventListener('input', (event) => {
 });
 $form.addEventListener('submit', (event) => {
   event.preventDefault();
-  const $formElements = $form.elements;
   const entriesObject = {
     title: $formElements.title.value,
     url: $formElements.url.value,
@@ -43,6 +43,7 @@ $form.addEventListener('submit', (event) => {
 function render(entry) {
   const $liRow = document.createElement('li');
   $liRow.className = 'row';
+  $liRow.setAttribute('data-entry-id', String(entry.entryId));
   const $divColumnHalf1 = document.createElement('div');
   $divColumnHalf1.className = 'column-half img-container';
   const $img = document.createElement('img');
@@ -51,11 +52,18 @@ function render(entry) {
   $img.setAttribute('alt', 'image post');
   const $divColumnHalf2 = document.createElement('div');
   $divColumnHalf2.className = 'column-half';
+  const $miniRow = document.createElement('div');
+  $miniRow.className = 'entries-title-icon-split';
   const $title = document.createElement('h3');
+  $title.className = 'entries-title';
   $title.textContent = entry.title;
+  const $pencil = document.createElement('i');
+  $pencil.setAttribute('class', 'fa-solid fa-pencil');
   const $notes = document.createElement('p');
   $notes.textContent = entry.notes;
-  $divColumnHalf2.appendChild($title);
+  $miniRow.appendChild($title);
+  $miniRow.appendChild($pencil);
+  $divColumnHalf2.appendChild($miniRow);
   $divColumnHalf2.appendChild($notes);
   $divColumnHalf1.appendChild($img);
   $liRow.appendChild($divColumnHalf1);
@@ -95,4 +103,21 @@ $entriesHeaderAnchor.addEventListener('click', (event) => {
 $newAnchor.addEventListener('click', (event) => {
   event.preventDefault();
   viewSwap('entry-form');
+});
+$ul.addEventListener('click', (event) => {
+  // const $pencilIcon = document.querySelector('.fa-pencil');
+  const $eventTarget = event.target;
+  if ($eventTarget.tagName === 'I') {
+    viewSwap('entry-form');
+    const $liAncestor = $eventTarget.closest('li');
+    for (let entry of data.entries) {
+      if ($liAncestor?.dataset.entryId === String(entry.entryId)) {
+        data.editing = entry;
+      }
+    }
+    $formElements.title.value = data.editing?.title;
+    $formElements.url.value = data.editing?.url;
+    $formElements.notes.value = data.editing?.notes;
+    $img.setAttribute('src', $formElements.url.value);
+  }
 });

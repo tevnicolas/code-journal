@@ -9,7 +9,7 @@ interface EntriesObject {
 interface Data {
   view: string;
   entries: EntriesObject[];
-  editing: unknown;
+  editing: EntriesObject | null;
   nextEntryId: number;
 }
 

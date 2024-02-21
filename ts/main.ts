@@ -8,6 +8,7 @@ interface FormElements extends HTMLFormControlsCollection {
 const $photoURLInput = document.querySelector('#url');
 const $img = document.querySelector('.img');
 const $form = document.querySelector('.form') as HTMLFormElement;
+const $formElements = $form.elements as FormElements;
 const $ul = document.querySelector('.list') as HTMLUListElement;
 const $noEntries = document.querySelector('.no-entries') as HTMLDivElement;
 const $entryForm = document.querySelector(
@@ -41,7 +42,6 @@ $photoURLInput.addEventListener('input', (event: Event): void => {
 
 $form.addEventListener('submit', (event: Event): void => {
   event.preventDefault();
-  const $formElements = $form.elements as FormElements;
   const entriesObject = {
     title: $formElements.title.value,
     url: $formElements.url.value,
@@ -62,6 +62,7 @@ $form.addEventListener('submit', (event: Event): void => {
 function render(entry: EntriesObject): HTMLLIElement {
   const $liRow = document.createElement('li');
   $liRow.className = 'row';
+  $liRow.setAttribute('data-entry-id', String(entry.entryId));
   const $divColumnHalf1 = document.createElement('div');
   $divColumnHalf1.className = 'column-half img-container';
   const $img = document.createElement('img');
@@ -70,12 +71,19 @@ function render(entry: EntriesObject): HTMLLIElement {
   $img.setAttribute('alt', 'image post');
   const $divColumnHalf2 = document.createElement('div');
   $divColumnHalf2.className = 'column-half';
+  const $miniRow = document.createElement('div');
+  $miniRow.className = 'entries-title-icon-split';
   const $title = document.createElement('h3');
+  $title.className = 'entries-title';
   $title.textContent = entry.title;
+  const $pencil = document.createElement('i');
+  $pencil.setAttribute('class', 'fa-solid fa-pencil');
   const $notes = document.createElement('p');
   $notes.textContent = entry.notes;
 
-  $divColumnHalf2.appendChild($title);
+  $miniRow.appendChild($title);
+  $miniRow.appendChild($pencil);
+  $divColumnHalf2.appendChild($miniRow);
   $divColumnHalf2.appendChild($notes);
   $divColumnHalf1.appendChild($img);
   $liRow.appendChild($divColumnHalf1);
@@ -121,4 +129,22 @@ $entriesHeaderAnchor.addEventListener('click', (event: Event): void => {
 $newAnchor.addEventListener('click', (event: Event): void => {
   event.preventDefault();
   viewSwap('entry-form');
+});
+
+$ul.addEventListener('click', (event) => {
+  // const $pencilIcon = document.querySelector('.fa-pencil');
+  const $eventTarget = event.target as HTMLElement;
+  if ($eventTarget.tagName === 'I') {
+    viewSwap('entry-form');
+    const $liAncestor = $eventTarget.closest('li');
+    for (const entry of data.entries) {
+      if ($liAncestor?.dataset.entryId === String(entry.entryId)) {
+        data.editing = entry;
+      }
+    }
+    $formElements.title.value = data.editing?.title as string;
+    $formElements.url.value = data.editing?.url as string;
+    $formElements.notes.value = data.editing?.notes as string;
+    $img.setAttribute('src', $formElements.url.value);
+  }
 });

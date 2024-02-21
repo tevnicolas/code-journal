@@ -31,12 +31,17 @@ $form.addEventListener('submit', (event) => {
     notes: $formElements.notes.value,
     entryId: data.nextEntryId,
   };
-  data.nextEntryId++;
-  data.entries.unshift(entriesObject);
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+  if (data.editing === null) {
+    data.nextEntryId++;
+    data.entries.unshift(entriesObject);
+    const $newLiTree = render(entriesObject);
+    $ul.appendChild($newLiTree);
+  } else {
+    entriesObject.entryId = data.editing.entryId;
+    data.editing = entriesObject;
+  }
   $form.reset();
-  const $newLiTree = render(entriesObject);
-  $ul.appendChild($newLiTree);
   viewSwap('entries');
   toggleNoEntries();
 });
@@ -46,10 +51,10 @@ function render(entry) {
   $liRow.setAttribute('data-entry-id', String(entry.entryId));
   const $divColumnHalf1 = document.createElement('div');
   $divColumnHalf1.className = 'column-half img-container';
-  const $img = document.createElement('img');
-  $img.className = 'img';
-  $img.setAttribute('src', entry.url);
-  $img.setAttribute('alt', 'image post');
+  const $postedImg = document.createElement('img');
+  $postedImg.className = 'img';
+  $postedImg.setAttribute('src', entry.url);
+  $postedImg.setAttribute('alt', 'image post');
   const $divColumnHalf2 = document.createElement('div');
   $divColumnHalf2.className = 'column-half';
   const $miniRow = document.createElement('div');
@@ -65,7 +70,7 @@ function render(entry) {
   $miniRow.appendChild($pencil);
   $divColumnHalf2.appendChild($miniRow);
   $divColumnHalf2.appendChild($notes);
-  $divColumnHalf1.appendChild($img);
+  $divColumnHalf1.appendChild($postedImg);
   $liRow.appendChild($divColumnHalf1);
   $liRow.appendChild($divColumnHalf2);
   return $liRow;
@@ -110,7 +115,7 @@ $ul.addEventListener('click', (event) => {
   if ($eventTarget.tagName === 'I') {
     viewSwap('entry-form');
     const $liAncestor = $eventTarget.closest('li');
-    for (let entry of data.entries) {
+    for (const entry of data.entries) {
       if ($liAncestor?.dataset.entryId === String(entry.entryId)) {
         data.editing = entry;
       }
@@ -119,5 +124,8 @@ $ul.addEventListener('click', (event) => {
     $formElements.url.value = data.editing?.url;
     $formElements.notes.value = data.editing?.notes;
     $img.setAttribute('src', $formElements.url.value);
+    const $titleEntryForm = document.querySelector('#title-entry-form');
+    if (!$titleEntryForm) throw new Error('No title!');
+    $titleEntryForm.textContent = 'Edit Entry';
   }
 });

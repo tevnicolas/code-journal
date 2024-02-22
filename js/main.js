@@ -187,4 +187,3 @@ $modal.addEventListener('click', (event) => {
     }
   }
 });
-console.log($confirm);

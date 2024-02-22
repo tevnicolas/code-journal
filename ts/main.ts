@@ -24,6 +24,7 @@ const $newAnchor = document.querySelector(
   '.new-button-styling'
 ) as HTMLAnchorElement;
 const $titleEntryForm = document.querySelector('#title-entry-form');
+const $deleteEntryAnchor = document.querySelector('#delete-entry');
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
@@ -121,6 +122,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
   }
   viewSwap(data.view);
   toggleNoEntries();
+  clearForm();
 });
 
 function toggleNoEntries(): void {
@@ -165,6 +167,7 @@ $ul.addEventListener('click', (event) => {
         data.editing = entry;
       }
     }
+    toggleDeleteEntry();
     $formElements.title.value = data.editing?.title as string;
     $formElements.url.value = data.editing?.url as string;
     $formElements.notes.value = data.editing?.notes as string;
@@ -181,4 +184,13 @@ function clearForm(): void {
   $img?.setAttribute('src', 'images/placeholder-image-square.jpg');
   $titleEntryForm!.textContent = 'New Entry';
   data.editing = null;
+  toggleDeleteEntry();
+}
+
+function toggleDeleteEntry(): void {
+  if (data.editing === null) {
+    $deleteEntryAnchor?.setAttribute('class', 'hidden');
+  } else {
+    $deleteEntryAnchor?.setAttribute('class', '');
+  }
 }

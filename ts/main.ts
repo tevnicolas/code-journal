@@ -204,11 +204,23 @@ $deleteEntryAnchor?.addEventListener('click', (): void => {
 
 $modal.addEventListener('click', (event) => {
   const $eventTarget = event.target as HTMLButtonElement;
+  const $editedLiTree = document.querySelector(
+    'li[data-entry-id="' + String(data.editing?.entryId) + '"]'
+  );
   if ($eventTarget === $cancel) {
     $modal.close();
+  } else if ($eventTarget === $confirm) {
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === data.editing?.entryId) {
+        data.entries.splice(i, 1);
+        clearForm();
+        $editedLiTree?.remove();
+        $modal.close();
+        viewSwap('entries');
+        toggleNoEntries();
+      }
+    }
   }
-
-  // start adding more code here for $confirm, rest of tasks etc.
 });
 
 console.log($confirm);

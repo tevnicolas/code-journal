@@ -11,6 +11,9 @@ const $entriesHeaderAnchor = document.querySelector('.anchor');
 const $newAnchor = document.querySelector('.new-button-styling');
 const $titleEntryForm = document.querySelector('#title-entry-form');
 const $deleteEntryAnchor = document.querySelector('#delete-entry');
+const $modal = document.querySelector('#delete-modal');
+const $cancel = document.querySelector('#cancel');
+const $confirm = document.querySelector('#confirm');
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
 if (!$form) throw new Error("There's no form element");
@@ -161,3 +164,14 @@ function toggleDeleteEntry() {
     $deleteEntryAnchor?.setAttribute('class', '');
   }
 }
+$deleteEntryAnchor?.addEventListener('click', () => {
+  $modal?.showModal();
+});
+$modal.addEventListener('click', (event) => {
+  const $eventTarget = event.target;
+  if ($eventTarget === $cancel) {
+    $modal.close();
+  }
+  // start adding more code here for $confirm, rest of tasks etc.
+});
+console.log($confirm);

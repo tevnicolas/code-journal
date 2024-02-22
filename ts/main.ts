@@ -25,6 +25,9 @@ const $newAnchor = document.querySelector(
 ) as HTMLAnchorElement;
 const $titleEntryForm = document.querySelector('#title-entry-form');
 const $deleteEntryAnchor = document.querySelector('#delete-entry');
+const $modal = document.querySelector('#delete-modal') as HTMLDialogElement;
+const $cancel = document.querySelector('#cancel');
+const $confirm = document.querySelector('#confirm');
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
@@ -157,7 +160,7 @@ $newAnchor.addEventListener('click', (event: Event): void => {
   clearForm();
 });
 
-$ul.addEventListener('click', (event) => {
+$ul.addEventListener('click', (event): void => {
   const $eventTarget = event.target as HTMLElement;
   if ($eventTarget.tagName === 'I') {
     viewSwap('entry-form');
@@ -194,3 +197,18 @@ function toggleDeleteEntry(): void {
     $deleteEntryAnchor?.setAttribute('class', '');
   }
 }
+
+$deleteEntryAnchor?.addEventListener('click', (): void => {
+  $modal?.showModal();
+});
+
+$modal.addEventListener('click', (event) => {
+  const $eventTarget = event.target as HTMLButtonElement;
+  if ($eventTarget === $cancel) {
+    $modal.close();
+  }
+
+  // start adding more code here for $confirm, rest of tasks etc.
+});
+
+console.log($confirm);

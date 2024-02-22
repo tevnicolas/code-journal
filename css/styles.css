@@ -19,9 +19,17 @@ body {
   margin-bottom: 30px;
 }
 
+#delete-entry {
+  margin: 0;
+  padding: 0;
+  color: red;
+  text-decoration: underline;
+}
+
 .parent-column-aligns-submit {
   display: flex;
-  justify-content: end;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 .header-row {

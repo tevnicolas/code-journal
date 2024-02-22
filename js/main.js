@@ -10,6 +10,10 @@ const $entries = document.querySelector('div[data-view="entries"]');
 const $entriesHeaderAnchor = document.querySelector('.anchor');
 const $newAnchor = document.querySelector('.new-button-styling');
 const $titleEntryForm = document.querySelector('#title-entry-form');
+const $deleteEntryAnchor = document.querySelector('#delete-entry');
+const $modal = document.querySelector('#delete-modal');
+const $cancel = document.querySelector('#cancel');
+const $confirm = document.querySelector('#confirm');
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
 if (!$form) throw new Error("There's no form element");
@@ -96,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   viewSwap(data.view);
   toggleNoEntries();
+  clearForm();
 });
 function toggleNoEntries() {
   if (data.entries.length > 0) {
@@ -135,6 +140,7 @@ $ul.addEventListener('click', (event) => {
         data.editing = entry;
       }
     }
+    toggleDeleteEntry();
     $formElements.title.value = data.editing?.title;
     $formElements.url.value = data.editing?.url;
     $formElements.notes.value = data.editing?.notes;
@@ -149,4 +155,35 @@ function clearForm() {
   $img?.setAttribute('src', 'images/placeholder-image-square.jpg');
   $titleEntryForm.textContent = 'New Entry';
   data.editing = null;
+  toggleDeleteEntry();
 }
+function toggleDeleteEntry() {
+  if (data.editing === null) {
+    $deleteEntryAnchor?.setAttribute('class', 'hidden');
+  } else {
+    $deleteEntryAnchor?.setAttribute('class', '');
+  }
+}
+$deleteEntryAnchor?.addEventListener('click', () => {
+  $modal?.showModal();
+});
+$modal.addEventListener('click', (event) => {
+  const $eventTarget = event.target;
+  const $editedLiTree = document.querySelector(
+    'li[data-entry-id="' + String(data.editing?.entryId) + '"]'
+  );
+  if ($eventTarget === $cancel) {
+    $modal.close();
+  } else if ($eventTarget === $confirm) {
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === data.editing?.entryId) {
+        data.entries.splice(i, 1);
+        clearForm();
+        $editedLiTree?.remove();
+        $modal.close();
+        viewSwap('entries');
+        toggleNoEntries();
+      }
+    }
+  }
+});

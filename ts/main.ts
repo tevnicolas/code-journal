@@ -24,6 +24,10 @@ const $newAnchor = document.querySelector(
   '.new-button-styling'
 ) as HTMLAnchorElement;
 const $titleEntryForm = document.querySelector('#title-entry-form');
+const $deleteEntryAnchor = document.querySelector('#delete-entry');
+const $modal = document.querySelector('#delete-modal') as HTMLDialogElement;
+const $cancel = document.querySelector('#cancel');
+const $confirm = document.querySelector('#confirm');
 
 if (!$photoURLInput) throw new Error("There's no photo url input element");
 if (!$img) throw new Error("There's no img element");
@@ -121,6 +125,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
   }
   viewSwap(data.view);
   toggleNoEntries();
+  clearForm();
 });
 
 function toggleNoEntries(): void {
@@ -155,7 +160,7 @@ $newAnchor.addEventListener('click', (event: Event): void => {
   clearForm();
 });
 
-$ul.addEventListener('click', (event) => {
+$ul.addEventListener('click', (event): void => {
   const $eventTarget = event.target as HTMLElement;
   if ($eventTarget.tagName === 'I') {
     viewSwap('entry-form');
@@ -165,6 +170,7 @@ $ul.addEventListener('click', (event) => {
         data.editing = entry;
       }
     }
+    toggleDeleteEntry();
     $formElements.title.value = data.editing?.title as string;
     $formElements.url.value = data.editing?.url as string;
     $formElements.notes.value = data.editing?.notes as string;
@@ -181,4 +187,38 @@ function clearForm(): void {
   $img?.setAttribute('src', 'images/placeholder-image-square.jpg');
   $titleEntryForm!.textContent = 'New Entry';
   data.editing = null;
+  toggleDeleteEntry();
 }
+
+function toggleDeleteEntry(): void {
+  if (data.editing === null) {
+    $deleteEntryAnchor?.setAttribute('class', 'hidden');
+  } else {
+    $deleteEntryAnchor?.setAttribute('class', '');
+  }
+}
+
+$deleteEntryAnchor?.addEventListener('click', (): void => {
+  $modal?.showModal();
+});
+
+$modal.addEventListener('click', (event) => {
+  const $eventTarget = event.target as HTMLButtonElement;
+  const $editedLiTree = document.querySelector(
+    'li[data-entry-id="' + String(data.editing?.entryId) + '"]'
+  );
+  if ($eventTarget === $cancel) {
+    $modal.close();
+  } else if ($eventTarget === $confirm) {
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === data.editing?.entryId) {
+        data.entries.splice(i, 1);
+        clearForm();
+        $editedLiTree?.remove();
+        $modal.close();
+        viewSwap('entries');
+        toggleNoEntries();
+      }
+    }
+  }
+});
